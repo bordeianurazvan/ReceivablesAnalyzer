@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ingestion.Domain\Ingestion.Domain.csproj" />
+    <ProjectReference Include="..\Ingestion.Infrastructure\Ingestion.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

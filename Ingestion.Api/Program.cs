@@ -1,3 +1,9 @@
+using Ingestion.Application;
+using Ingestion.Domain.RepositoryInterfaces;
+using Ingestion.Infrastructure;
+using Ingestion.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace Ingestion.Api
 {
     public class Program
@@ -12,6 +18,16 @@ namespace Ingestion.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // Setting up the Sql Server DB
+            builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            builder.Services.AddScoped<ICreditNoteRepository, CreditNoteRepository>();
+
+            builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+            builder.Services.AddScoped<ICreditNoteService, CreditNoteService>();
 
             var app = builder.Build();
 
