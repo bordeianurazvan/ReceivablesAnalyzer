@@ -24,12 +24,12 @@ Receivables are debts owed to a company for goods or services which have been pr
 Structuring solution is crucial for maintainability, scalability, and ease of development, so I went for:
 - Microservice Architecture
 - Clean Arhitecture: 
--- Independent Layers: Application, Domain, Infrastructure, and Presentation)
--- Dependency Flow: dependency flow is designed to move from the outer layers to the inner layers
--- Separation of Concerns: Each layer has a specific responsibility
+    - Independent Layers: Application, Domain, Infrastructure, and Presentation)
+    - Dependency Flow: dependency flow is designed to move from the outer layers to the inner layers
+    - Separation of Concerns: Each layer has a specific responsibility
 - Domain Driver Design
--- Domain Layer: The "Domain" layer contains entities and repositories.
--- Repositories: aligns with DDD practices, where repositories define how the application interacts with the data stored
+    - Domain Layer: The "Domain" layer contains entities and repositories.
+    - Repositories: aligns with DDD practices, where repositories define how the application interacts with the data stored
 - Database per service - as starting idea, currently microservices use a shared database
 
 ### Assumtions
@@ -58,7 +58,8 @@ Analysis DB, so each time a new Invoice/CreditNote is added, updated, deleted fr
 to be consumed by the Analysis Microservice and synchronize DB accordly.
 
 ### Schema
-```1. Ingestion Microservice/
+```
+1. Ingestion Microservice/
    |-- Presentation/
    |   |-- Controllers/
    |   |   |-- InvoiceController
