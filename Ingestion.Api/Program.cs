@@ -1,4 +1,5 @@
 using Ingestion.Application;
+using Ingestion.Application.Services;
 using Ingestion.Domain.RepositoryInterfaces;
 using Ingestion.Infrastructure;
 using Ingestion.Infrastructure.Repositories;
@@ -28,6 +29,9 @@ namespace Ingestion.Api
 
             builder.Services.AddScoped<IInvoiceService, InvoiceService>();
             builder.Services.AddScoped<ICreditNoteService, CreditNoteService>();
+
+            // Setting up autommaper
+            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
             var app = builder.Build();
 

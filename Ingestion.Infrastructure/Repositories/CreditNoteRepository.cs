@@ -30,6 +30,14 @@ public class CreditNoteRepository : ICreditNoteRepository
         return entity;
     }
 
+    public async Task<IList<CreditNote>> InsertBulkAsync(IList<CreditNote> entities)
+    {
+        await _dbContext.BulkInsertAsync(entities, operation => operation.IncludeGraph = true);
+        await _dbContext.SaveChangesAsync();
+
+        return entities;
+    }
+
     public async Task<CreditNote> UpdateAsync(CreditNote entity)
     {
         _dbContext.Update(entity);

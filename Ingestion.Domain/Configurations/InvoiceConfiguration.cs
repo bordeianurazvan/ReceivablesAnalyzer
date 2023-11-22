@@ -17,7 +17,6 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 
         builder.Property(e => e.DebtorName).IsRequired();
         builder.Property(e => e.DebtorReference).IsRequired();
-        builder.Property(e => e.DebtorReference).IsRequired();
         builder.Property(e => e.DebtorCountryCode).HasMaxLength(2).IsRequired();
     }
 }

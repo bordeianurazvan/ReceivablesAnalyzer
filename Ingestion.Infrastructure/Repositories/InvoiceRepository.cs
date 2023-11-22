@@ -30,6 +30,14 @@ public class InvoiceRepository : IInvoiceRepository
         return entity;
     }
 
+    public async Task<IList<Invoice>> InsertBulkAsync(IList<Invoice> entities)
+    {
+        await _dbContext.BulkInsertAsync(entities, operation => operation.IncludeGraph = true);
+        await _dbContext.SaveChangesAsync();
+
+        return entities;
+    }
+
     public async Task<Invoice> UpdateAsync(Invoice entity)
     {
         _dbContext.Update(entity);
@@ -41,7 +49,7 @@ public class InvoiceRepository : IInvoiceRepository
     {
         var entity = _dbContext.Invoices.FirstOrDefault(e => e.Reference == reference);
         if (entity == null)
-            return await _dbContext.SaveChangesAsync() > 0;
+            return false;
 
         _dbContext.Remove(entity);
         return await _dbContext.SaveChangesAsync() > 0;

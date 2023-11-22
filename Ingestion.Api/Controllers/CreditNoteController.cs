@@ -6,27 +6,27 @@ namespace Ingestion.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class InvoiceController : ControllerBase
+public class CreditNoteController : ControllerBase
 {
-    private readonly ILogger<InvoiceController> _logger;
-    private readonly IInvoiceService _invoiceService;
+    private readonly ILogger<CreditNoteController> _logger;
+    private readonly ICreditNoteService _creditNoteService;
 
-    public InvoiceController(ILogger<InvoiceController> logger, IInvoiceService invoiceService)
+    public CreditNoteController(ILogger<CreditNoteController> logger, ICreditNoteService creditNoteService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _invoiceService = invoiceService ?? throw new ArgumentNullException(nameof(invoiceService));
+        _creditNoteService = creditNoteService ?? throw new ArgumentNullException(nameof(creditNoteService));
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var invoices = await _invoiceService.GetAllAsync()!;
-        if (invoices == null)
+        var creditNotes = await _creditNoteService.GetAllAsync()!;
+        if (creditNotes == null)
         {
             return NotFound();
         }
 
-        return Ok(invoices);
+        return Ok(creditNotes);
     }
 
     [HttpGet("{reference}")]
@@ -38,27 +38,27 @@ public class InvoiceController : ControllerBase
             return BadRequest();
         }
 
-        var invoice = await _invoiceService.GetByReferenceAsync(reference);
-        if (invoice == null)
+        var creditNote = await _creditNoteService.GetByReferenceAsync(reference);
+        if (creditNote == null)
         {
             return NotFound();
         }
 
-        return Ok(invoice);
+        return Ok(creditNote);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(IList<InvoiceDto> invoiceDtos)
+    public async Task<IActionResult> Post(IList<CreditNoteDto> creditNotesDtos)
     {
-        if (invoiceDtos == null)
+        if (creditNotesDtos == null)
         {
-            return BadRequest("Invoice payload cannot be null!");
+            return BadRequest("CreditNote payload cannot be null!");
         }
 
-        var response = await _invoiceService.InsertAsync(invoiceDtos);
+        var response = await _creditNoteService.InsertAsync(creditNotesDtos);
         if (response == null || !response.Any())
         {
-            return BadRequest("Invoice payload is invalid!");
+            return BadRequest("CreditNote payload is invalid!");
         }
 
         return Ok(response);
@@ -66,14 +66,14 @@ public class InvoiceController : ControllerBase
 
     [HttpPut]
     [ApiExplorerSettings(IgnoreApi = true)]
-    public async Task<IActionResult> Update(InvoiceDto invoiceDto)
+    public async Task<IActionResult> Update(CreditNoteDto creditNoteDto)
     {
-        if (invoiceDto == null)
+        if (creditNoteDto == null)
         {
             return BadRequest();
         }
 
-        var response = await _invoiceService.UpdateAsync(invoiceDto);
+        var response = await _creditNoteService.UpdateAsync(creditNoteDto);
         return Ok(response);
     }
 
@@ -86,7 +86,7 @@ public class InvoiceController : ControllerBase
             return BadRequest();
         }
 
-        var response = await _invoiceService.DeleteAsync(reference);
+        var response = await _creditNoteService.DeleteAsync(reference);
         if (response)
         {
             return Ok(response);
