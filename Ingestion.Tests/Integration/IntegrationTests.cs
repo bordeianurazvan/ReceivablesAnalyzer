@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Ingestion.Tests.Integration;
 
-public class BaseIntegrationTests : IClassFixture<TestingWebAppFactory<Program>>
+public class IntegrationTests : IClassFixture<TestingWebAppFactory<Program>>
 {
     private readonly HttpClient _client;
 
-    public BaseIntegrationTests(TestingWebAppFactory<Program> factory)
+    public IntegrationTests(TestingWebAppFactory<Program> factory)
     {
         _client = factory.CreateClient();
     }

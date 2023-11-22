@@ -37,7 +37,7 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
                    
                     appContext.Invoices.Add(new Domain.Entities.Invoice
                     {
-                        Reference = "74283561-ba83-43b2-91da-3b2444cd44aa",
+                        Reference = Guid.NewGuid().ToString(),
                         CurrencyCode = "EUR",
                         IssueDate = DateTimeOffset.Parse("2023-11-01"),
                         OpeningValue = 1001,
@@ -57,7 +57,7 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
                     });
                     appContext.CreditNotes.Add(new Domain.Entities.CreditNote
                     {
-                        Reference = "74283561-ba83-43b2-91da-3b2444cd44aa",
+                        Reference = Guid.NewGuid().ToString(),
                         CurrencyCode = "EUR",
                         IssueDate = DateTimeOffset.Parse("2023-11-01"),
                         OpeningValue = 1001,

@@ -159,7 +159,6 @@ public class InvoiceServiceTests
     public async Task GetAllAsync_WhenDataDoesNotExists_ReturnsNull()
     {
         // Arrange
-        var expectedInvoiceCount = _invoices.Count;
         _invoiceRepositoryMock!.Setup(x => x.GetAllAsync()).ReturnsAsync((List<Invoice>)null!);
 
         // Act
