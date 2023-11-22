@@ -58,7 +58,7 @@ Analysis DB, so each time a new Invoice/CreditNote is added, updated, deleted fr
 to be consumed by the Analysis Microservice and synchronize DB accordly.
 
 ### Schema
-1. Ingestion Microservice/
+```1. Ingestion Microservice/
    |-- Presentation/
    |   |-- Controllers/
    |   |   |-- InvoiceController
@@ -97,13 +97,14 @@ to be consumed by the Analysis Microservice and synchronize DB accordly.
    |   |-- UnitTests/
    |   |   |-- Controllers
    |   |   |-- Services
+```
 
 #### Explanation:
 - Application: services responsible for coordinating actions within the application. For example, Getting, Adding, Updating, Deleting receivables.
 - Domain: Defines domain entities: Invoice, CreditNote, interfaces for repositories and configurations for entities.
 - Infrastructure: Implements concrete repositories and database-related components.
 - Presentation:  Handles the HTTP request-response cycle. Invoice/CreditNote controller receives HTTP requests related to ingesting receivables.
-   
+```   
 2. Summary Microservice/
    |-- Presentation/
    |   |-- Controllers/
@@ -143,7 +144,7 @@ to be consumed by the Analysis Microservice and synchronize DB accordly.
    |   |-- UnitTests/
    |   |   |-- Controllers
    |   |   |-- Services
-
+```
 #### Explanation:
 - Application: services responsible for coordinating actions within the application. For example exposing summary statistics about receivables.
 - Domain: Defines domain entities: Invoice, CreditNote, interfaces for repositories and configurations for entities.
