@@ -2,7 +2,7 @@
 A basic set of HTTP APIs used for ingesting and analyzing receivables from prospective clients to help our organization decide if we should lend to a business, and how much we are comfortable providing.
 Receivables are debts owed to a company for goods or services which have been provided but not yet paid for. Invoices and credit notes can be considered types of receivables.
 
-## Project instalation and run
+## Project installation and run
 - clone repository
 - run update-database in the Package Manager Console (PMC):
     - make sure you setup Ingestion API as startup project and select Ingestion.Infrastructure as Default Project in PMC.
