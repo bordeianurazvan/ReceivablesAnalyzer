@@ -184,4 +184,5 @@ to be consumed by the Analysis Microservice and synchronize DB accordly.
 - Solution and place holder projects - 30min
 - Ingestion Microservice - 8-10h (2h adding unit/integration tests)
 - Analysis Microservice - 6-8h (1-2h adding unit/integration tests)
-- Documentation 1-2h 
+- Documentation 2h
+- Manual testing, small fixes, documentation formatting 2h
