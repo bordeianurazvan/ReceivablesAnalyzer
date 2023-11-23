@@ -95,13 +95,20 @@ public class InvoiceController : ControllerBase
             return BadRequest("Invoice payload cannot be null!");
         }
 
-        var response = await _invoiceService.InsertAsync(invoices);
-        if (response == null || !response.Any())
+        try
         {
-            return BadRequest("Invoice payload is invalid!");
-        }
+            var response = await _invoiceService.InsertAsync(invoices);
+            if (response == null || !response.Any())
+            {
+                return BadRequest("Invoice payload is invalid!");
+            }
 
-        return Ok(response);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut]

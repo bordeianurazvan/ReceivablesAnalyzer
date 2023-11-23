@@ -95,13 +95,20 @@ public class CreditNoteController : ControllerBase
             return BadRequest("CreditNote payload cannot be null!");
         }
 
-        var response = await _creditNoteService.InsertAsync(creditNotes);
-        if (response == null || !response.Any())
+        try
         {
-            return BadRequest("CreditNote payload is invalid!");
-        }
+            var response = await _creditNoteService.InsertAsync(creditNotes);
+            if (response == null || !response.Any())
+            {
+                return BadRequest("CreditNote payload is invalid!");
+            }
 
-        return Ok(response);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPut]
