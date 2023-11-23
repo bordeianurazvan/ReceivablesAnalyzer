@@ -4,6 +4,8 @@ using Ingestion.Domain.RepositoryInterfaces;
 using Ingestion.Infrastructure;
 using Ingestion.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace Ingestion.Api
 {
@@ -18,7 +20,17 @@ namespace Ingestion.Api
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Ingestion API",
+                    Description = "An ASP.NET Core Web API for ingesting and storing Receivables"
+                });
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
 
             // Setting up the Sql Server DB
             builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(

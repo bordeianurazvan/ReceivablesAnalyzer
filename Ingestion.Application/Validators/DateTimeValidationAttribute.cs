@@ -11,8 +11,13 @@ public class DateTimeValidationAttribute : ValidationAttribute
         _expectedFormat = expectedFormat;
     }
 
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
+        if (value == null)
+        {
+            return ValidationResult.Success!;
+        }
+
         if (value is not string dateString || !DateTime.TryParseExact(dateString, _expectedFormat, null, System.Globalization.DateTimeStyles.None, out _))
         {
             return new ValidationResult(ErrorMessage ?? $"Invalid date format. Expected format: {_expectedFormat}");

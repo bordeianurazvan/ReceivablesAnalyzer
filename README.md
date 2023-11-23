@@ -9,9 +9,29 @@ Receivables are debts owed to a company for goods or services which have been pr
 - make sure you have same connection string added in the appsettings.json, in the DefaultConnection for each project
 - configure startup projects in VS: select multiple startup project and for Ingestion.API and Analysis.API select "Start without debugging". 
  
-## Key Features
-- Ingestion Microservice used for ingesting and storing Invoices and Credit Notes.
+## Ingestion flow: Key Features
+- Ingestion Microservice used for ingesting and storing Invoices and Credit Notes
+- Developed two types of validations:
+    - Dtos validation through the DataAnnotations to make sure we got:
+        - required fields
+        - range values for double inputs
+        - formatted dateTime values for the inputs where we are expecting a string which will be mapped into a dateTime
+        - min and/or max length for strings
+    - Business validations:
+        - for example we will not add an invoice/credit note that has a due date lower than issue date
+        - not add an invoice/credit note that has a closed date lower than issue date
+        - these validations generate logs with fluent results in case of error
+- Used validations to achieve a partial processing of input data and logging corresponding invoice/credit note in case of error.
+- Used Automapper for mapping DTOs into Entities and vice-versa
+- Used Bulk Insert for an efficient insert a big amount of data at once.
+
+## Analysis flow: Key Features
 - Analysis Microservice used for summary statistics about the stored Invoices and Credit Notes.
+- Developed custom endpoints where end user can provide different inputs to filter invoices/credit notes before generating summary response.
+    - if end user provides start and end dates, query will include only invoices/credit notes with an issue date between these values
+    - end user has the possibility to selected from a dropdown (in swagger UI) if it wants to include only open/closed invoices or both of them.
+- Analysis API expose data that are introduced and validated through the Ingestion API.
+- On the business layer I developed a dynamic query based on the end user input.
 
 ## Tehnical Stack
 - .NET 6

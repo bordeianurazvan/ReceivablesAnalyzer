@@ -17,6 +17,11 @@ public class CreditNoteController : ControllerBase
         _creditNoteService = creditNoteService ?? throw new ArgumentNullException(nameof(creditNoteService));
     }
 
+    /// <summary>
+    /// Get all stored credit notes.
+    /// </summary>
+    /// <response code="200">Returns all stored credit notes.</response>
+    /// <response code="404">If no credit notes are found.</response>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -47,15 +52,50 @@ public class CreditNoteController : ControllerBase
         return Ok(creditNote);
     }
 
+    /// <summary>
+    /// Add new credit notes.
+    /// </summary>
+    /// <param name="creditNotes"></param>
+    /// <returns>New added credit notes.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     POST /CreditNote
+    ///     [
+    ///       {
+    ///         "reference": "74283561-ba83-43b2-91da-3b2444cd44aa",
+    ///         "currencyCode": "EUR",
+    ///         "issueDate": "2023-11-01",
+    ///         "openingValue": 1001,
+    ///         "paidValue": 1000,
+    ///         "dueDate": "2023-11-30",
+    ///         "closedDate": "2023-11-30",
+    ///         "cancelled": false,
+    ///         "debtorName": "Random Bank",
+    ///         "debtorReference": "3d811c09-c951-446e-a976-3cc176aaa28c",
+    ///         "debtorCountryCode": "RO",
+    ///         "debtorAddress1": "Bucharest",
+    ///         "debtorAddress2": "Random Street",
+    ///         "debtorTown": "Bucharest",
+    ///         "debtorState": "Romania",
+    ///         "debtorZip": "123456",
+    ///         "debtorRegistrationNumber": "1234567890"
+    ///       }
+    ///     ]
+    ///
+    /// </remarks>
+    /// <response code="200">Returns a list of newly added credit notes.</response>
+    /// <response code="400">If the provided list of credit notes is null</response>
+    /// <response code="400">If the credit note payload is invalid</response>
     [HttpPost]
-    public async Task<IActionResult> Post(IList<CreditNoteDto> creditNotesDtos)
+    public async Task<IActionResult> Post(IList<CreditNoteDto> creditNotes)
     {
-        if (creditNotesDtos == null)
+        if (creditNotes == null)
         {
             return BadRequest("CreditNote payload cannot be null!");
         }
 
-        var response = await _creditNoteService.InsertAsync(creditNotesDtos);
+        var response = await _creditNoteService.InsertAsync(creditNotes);
         if (response == null || !response.Any())
         {
             return BadRequest("CreditNote payload is invalid!");

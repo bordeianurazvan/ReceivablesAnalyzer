@@ -17,6 +17,11 @@ public class InvoiceController : ControllerBase
         _invoiceService = invoiceService ?? throw new ArgumentNullException(nameof(invoiceService));
     }
 
+    /// <summary>
+    /// Get all stored invoices.
+    /// </summary>
+    /// <response code="200">Returns all stored invoices.</response>
+    /// <response code="404">If no invoices are found.</response>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -47,15 +52,50 @@ public class InvoiceController : ControllerBase
         return Ok(invoice);
     }
 
+    /// <summary>
+    /// Add new invoices.
+    /// </summary>
+    /// <param name="invoices"></param>
+    /// <returns>New added invoices</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     POST /Invoice
+    ///     [
+    ///       {
+    ///         "reference": "74283561-ba83-43b2-91da-3b2444cd44aa",
+    ///         "currencyCode": "EUR",
+    ///         "issueDate": "2023-11-01",
+    ///         "openingValue": 1001,
+    ///         "paidValue": 1000,
+    ///         "dueDate": "2023-11-30",
+    ///         "closedDate": "2023-11-30",
+    ///         "cancelled": false,
+    ///         "debtorName": "Random Bank",
+    ///         "debtorReference": "3d811c09-c951-446e-a976-3cc176aaa28c",
+    ///         "debtorCountryCode": "RO",
+    ///         "debtorAddress1": "Bucharest",
+    ///         "debtorAddress2": "Random Street",
+    ///         "debtorTown": "Bucharest",
+    ///         "debtorState": "Romania",
+    ///         "debtorZip": "123456",
+    ///         "debtorRegistrationNumber": "1234567890"
+    ///       }
+    ///     ]
+    ///
+    /// </remarks>
+    /// <response code="200">Returns a list of newly added invoices</response>
+    /// <response code="400">If the provided list of invoices is null</response>
+    /// <response code="400">If the invoice payload is invalid</response>
     [HttpPost]
-    public async Task<IActionResult> Post(IList<InvoiceDto> invoiceDtos)
+    public async Task<IActionResult> Post(IList<InvoiceDto> invoices)
     {
-        if (invoiceDtos == null)
+        if (invoices == null)
         {
             return BadRequest("Invoice payload cannot be null!");
         }
 
-        var response = await _invoiceService.InsertAsync(invoiceDtos);
+        var response = await _invoiceService.InsertAsync(invoices);
         if (response == null || !response.Any())
         {
             return BadRequest("Invoice payload is invalid!");
